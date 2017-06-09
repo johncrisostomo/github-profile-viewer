@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
-import { Avatar } from 'react-native-elements';
+import { Card } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { Text, View } from 'react-native';
 
 class Profile extends Component {
   render() {
+    const { avatar_url, name, bio } = this.props.github;
+
     return (
-      <Avatar
-        xlarge
-        rounded
-        source={{ uri: this.props.github.avatar_url }}
-        onPress={() => console.log('Works!')}
-        activeOpacity={0.7}
-      />
+      <Card title={name} image={{ uri: avatar_url }}>
+        <Text>{bio}</Text>
+      </Card>
     );
   }
 }
