@@ -7,7 +7,7 @@ import { findUser, clearUser } from '../actions/github_actions';
 
 class Main extends Component {
   static navigationOptions = {
-    title: 'GitHub Profile Viewer',
+    header: null,
   };
 
   state = {
@@ -16,16 +16,21 @@ class Main extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <View style={styles.containerStyle}>
         <FormInput
-          inputStyle={{ height: 60, fontSize: 40 }}
+          autoCapitalize="none"
+          autoCorrect={false}
+          inputStyle={{ height: 60, fontSize: 40, color: '#FFF' }}
+          containerStyle={{ width: 350 }}
           value={this.state.input}
           onChangeText={text => this.setState({ input: text })}
         />
         <Button
           large
+          raised
           title="Search on GitHub"
-          containerViewStyle={{ marginTop: 15 }}
+          buttonStyle={{ backgroundColor: 'maroon' }}
+          containerViewStyle={{ marginTop: 20 }}
           onPress={() => {
             this.setState({ input: '' });
             this.props.clearUser();
@@ -37,5 +42,14 @@ class Main extends Component {
     );
   }
 }
+
+const styles = {
+  containerStyle: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#000'
+  },
+};
 
 export default connect(null, { findUser, clearUser })(Main);

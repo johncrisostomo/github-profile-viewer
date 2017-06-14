@@ -14,6 +14,8 @@ export const findUser = username => async dispatch => {
   try {
     let { data } = await axios.get(`https://api.github.com/users/${username}`);
     if (data.login === username) {
+      let followersResponse = await axios.get(data.followers_url);
+      data.followers = followersResponse.data;
       dispatch({
         type: GITHUB_FETCH_SUCCESS,
         payload: data,

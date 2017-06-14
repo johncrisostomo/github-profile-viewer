@@ -1,13 +1,44 @@
 import React, { Component } from 'react';
 import _ from 'underscore';
-import { Avatar, Divider } from 'react-native-elements';
+import { Avatar, Divider, List, ListItem } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { Text, View, ActivityIndicator } from 'react-native';
+import { Text, View, ListView, ActivityIndicator } from 'react-native';
 
 class Profile extends Component {
+  constructor() {
+    super();
+
+    this.ds = new ListView.DataSource({
+      rowHasChanged: (r1, r2) => r1 !== r2,
+    });
+
+    this.state = {
+      dataSource: [],
+    }
+  }
+
+  componentWillReceiveProps({ github }) {
+    this.setState({
+      dataSource: this.ds.cloneWithRows(github.followers),
+    });
+  }
+
+  renderRow(rowData, index) {
+    return (
+      <ListItem
+        hideChevron={true}
+        roundAvatar
+        key={index}
+        title={rowData.name}
+        subtitle={rowData.login}
+        avatar={{ uri: rowData.avatar_url }}
+      />
+    )
+  }
+
   render() {
     if (!(_.isEmpty(this.props.github))) {
-      const { avatar_url, name, bio, login } = this.props.github;
+      const { avatar_url, name, bio, login, followers } = this.props.github;
 
       return (
         <View style={styles.containerStyle}>
@@ -24,13 +55,19 @@ class Profile extends Component {
           </View>
           <Divider style={{ backgroundColor: '#F1F1F1' }} />
           <View style={styles.followersContainer}>
-            <Text style={[styles.followersHeader, { color: '#F1F1F1' }]}>FOLLOWERS</Text>
+            <Text style={[styles.followersHeader, { color: '#F1F1F1' }]}>SHOWING {followers.length} FOLLOWERS</Text>
           </View>
+          <View style={{ marginTop: 10 }}>
+              <ListView
+                renderRow={this.renderRow.bind(this)}
+                dataSource={this.state.dataSource}
+              />
+            </View>
         </View>
       );
     } else {
       return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <View style={styles.loadingStyle}>
           <ActivityIndicator size="large" />
         </View>
       );
@@ -51,6 +88,7 @@ const styles = {
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginTop: 20,
+    marginBottom: 15,
     padding: 10,
   },
   followersContainer: {
@@ -61,6 +99,11 @@ const styles = {
     marginTop: 10,
     fontSize: 20,
     fontWeight: 'bold'
+  },
+  loadingStyle: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 };
 
