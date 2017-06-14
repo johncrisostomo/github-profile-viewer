@@ -7,6 +7,7 @@ import { findUser, clearUser } from '../actions/github_actions';
 
 class Main extends Component {
   static navigationOptions = {
+    title: 'Search',
     header: null,
   };
 
@@ -18,6 +19,7 @@ class Main extends Component {
     return (
       <View style={styles.containerStyle}>
         <FormInput
+          keyboardAppearance="dark"
           autoCapitalize="none"
           autoCorrect={false}
           inputStyle={{ height: 60, fontSize: 40, color: '#FFF' }}

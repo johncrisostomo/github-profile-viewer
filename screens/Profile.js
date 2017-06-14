@@ -5,6 +5,13 @@ import { connect } from 'react-redux';
 import { Text, View, ListView, ActivityIndicator } from 'react-native';
 
 class Profile extends Component {
+  static navigationOptions = {
+    headerStyle: {
+      backgroundColor: '#000',
+    },
+    headerTintColor: 'maroon',
+  };
+
   constructor() {
     super();
 
@@ -68,7 +75,7 @@ class Profile extends Component {
     } else {
       return (
         <View style={styles.loadingStyle}>
-          <ActivityIndicator size="large" />
+          <ActivityIndicator color='#FFF' size="large" />
         </View>
       );
     }
@@ -102,6 +109,7 @@ const styles = {
   },
   loadingStyle: {
     flex: 1,
+    backgroundColor: '#000',
     justifyContent: 'center',
     alignItems: 'center',
   },
