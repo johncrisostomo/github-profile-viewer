@@ -3,7 +3,12 @@ import {
   GITHUB_FETCH_SUCCESS,
   GITHUB_FETCH_FAIL,
   GITHUB_FETCH_NO_USER,
+  GITHUB_CLEAR_USER,
 } from './types';
+
+export const clearUser = () => {
+  return { type: GITHUB_CLEAR_USER };
+};
 
 export const findUser = username => async dispatch => {
   try {

@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { Button, FormInput } from 'react-native-elements';
 import { connect } from 'react-redux';
 
-import { findUser } from '../actions/github_actions';
+import { findUser, clearUser } from '../actions/github_actions';
 
 class Main extends Component {
   static navigationOptions = {
@@ -27,6 +27,8 @@ class Main extends Component {
           title="Search on GitHub"
           containerViewStyle={{ marginTop: 15 }}
           onPress={() => {
+            this.setState({ input: '' });
+            this.props.clearUser();
             this.props.findUser(this.state.input);
             this.props.navigation.navigate('profile');
           }}
@@ -36,4 +38,4 @@ class Main extends Component {
   }
 }
 
-export default connect(null, { findUser })(Main);
+export default connect(null, { findUser, clearUser })(Main);
